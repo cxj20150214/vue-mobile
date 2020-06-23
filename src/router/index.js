@@ -5,7 +5,7 @@ Vue.use(Router)
 
 /* Layout */
 import Layout from '@/layout'
-
+import food from '@/views/foodie/index'
 /**
  * Note: sub-menu only appear when route children.length >= 1
  * Detail see: https://panjiachen.github.io/vue-element-admin-site/guide/essentials/router-and-nav.html
@@ -36,7 +36,35 @@ export const constantRoutes = [
     component: () => import('@/views/login/index'),
     hidden: true
   },
-
+  {
+    path: '/bind',
+    name: 'bind',
+    component: () => import('@/views/login/bind'),
+    meta: { title: '登录', icon: 'dashboard' },
+    hidden: true
+  },
+  {
+    path: '/food',
+    name: 'food',
+    redirect: '/food/foodlist',
+    component: food,
+    meta: { title: '首页', icon: 'dashboard' },
+    hidden: true,
+    children: [
+      {
+      path: '/food/foodlist',
+      name: 'foodlist',
+      component: () => import('@/views/foodie/foodlist/index'),
+      meta: { title: '吃什么', icon: 'dashboard' }
+      },
+      {
+      path: '/food/center',
+      name: 'center',
+      component: () => import('@/views/foodie/center/index'),
+      meta: { title: '我的', icon: 'dashboard' }
+     }
+  ]
+  },
   {
     path: '/404',
     component: () => import('@/views/404'),
@@ -46,7 +74,7 @@ export const constantRoutes = [
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/food',
     children: [{
       path: 'dashboard',
       name: 'Dashboard',
@@ -89,7 +117,6 @@ export const constantRoutes = [
       }
     ]
   },
-
   {
     path: '/nested',
     component: Layout,
