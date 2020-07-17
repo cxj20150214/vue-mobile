@@ -14,22 +14,22 @@
             >
               <el-form-item prop="mobile">
                 <img class="bind_img1" src="../../assets/img/bind1 (1).png" alt />
-                <input class="myInput" v-model="ruleForm.username" placeholder="输入手机号码" />
+                <input class="myInput" v-model="ruleForm.username" placeholder="输入手机号/账户" />
               </el-form-item>
               <el-form-item prop="smsvcode">
                 <img class="bind_img1" src="../../assets/img/bind1 (2).png" alt />
-                <input class="myInput" v-model="ruleForm.password" placeholder="输入验证码" />
-                <div class="button yz">获取验证码</div>
+                <input class="myInput" type="password" v-model="ruleForm.password" placeholder="输入密码" />
+                <!-- <div class="button yz">获取验证码</div> -->
               </el-form-item>
               <div v-loading="loading" class="button bd" @click="submitForm('ruleForm')">登录</div>
             </el-form>
           </div>
         </div>
-        <p class="tis">(手机号:15605995727 验证码任意)</p>
+        <p class="tis" @click="toReg">注册</p>
       </div>
     </div>
     <div class="success" v-show="loginSuccess">登录成功</div>
-    <div class="success" v-show="loginErr">账号或者密码不正确。</div>
+    <div class="success" v-show="loginErr">{{loginErrmes}}</div>
   </div>
 </template>
 <script>
@@ -40,6 +40,7 @@ export default {
       num: 0,
       // thisQuery: "",
       access_token: "",
+      loginErrmes: "",
       ruleForm: {
         username: "",
         password: ""
@@ -48,7 +49,7 @@ export default {
         username: [
           { required: true, message: "请输入手机号", trigger: "blur" }
         ],
-        password: [{ required: true, message: "请输入验证码", trigger: "blur" }]
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
       },
       loading: false,
       loginSuccess: false,
@@ -57,19 +58,37 @@ export default {
   },
   components: {},
   methods: {
+    // 跳转注册页
+    toReg() {
+      console.log("111");
+      this.$router.push("/register");
+    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.loading = true;
           this.$store
             .dispatch("user/login", this.ruleForm)
-            .then(() => {
-              this.loginSuccess = true;
-              setTimeout(() => {
-                this.$router.push({ path: "/food" });
-                this.loginSuccess = false;
-                this.loading = false;
-              }, 1500);
+            .then(response => {
+              console.log(response, "111");
+              if (response.code == 200) {
+                console.log("aaa");
+                this.loginSuccess = true;
+                setTimeout(() => {
+                  this.$router.push({ path: "/food" });
+                  this.loginSuccess = false;
+                  this.loading = false;
+                }, 1500);
+              }
+              if (response.code == 400) {
+                console.log("bbb");
+                this.loginErr = true;
+                this.loginErrmes = response.msg;
+                setTimeout(() => {
+                  this.loginErr = false;
+                  this.loading = false;
+                }, 1500);
+              }
             })
             .catch(() => {
               this.loading = false;
@@ -153,7 +172,7 @@ export default {
       margin: 10vh auto 5vh;
       border-radius: 100%;
     }
-    width: 590px;
+    width: 640px;
     margin: 0px auto;
     padding: 50px;
     .tit {
@@ -196,9 +215,9 @@ export default {
           }
           &.bd {
             width: 100%;
-            height: 80px;
-            line-height: 80px;
-            font-size: 32px;
+            height: 90px;
+            line-height: 90px;
+            font-size: 38px;
             background-color: #ffc32e;
             color: #fff;
           }
@@ -224,8 +243,8 @@ export default {
 }
 .myInput {
   width: 275px;
-  height: 60px;
-  font-size: 28px;
+  height: 80px;
+  font-size: 34px;
   padding-left: 10px;
   float: left;
   border: 0px;
@@ -238,7 +257,7 @@ export default {
 .thisForm {
   .bind_img1 {
     width: 25px;
-    margin-top: 15px;
+    margin-top: 25px;
     float: left;
     margin-right: 20px;
   }
@@ -254,18 +273,19 @@ export default {
   }
 }
 .tis {
-  font-size: 28px;
+  font-size: 34px;
+  text-align: right;
   color: #999;
 }
 .success {
-  width: 30vw;
+  width: 60vw;
   height: 80px;
   line-height: 80px;
   text-align: center;
   font-size: 26px;
   color: #fff;
   position: fixed;
-  left: 35vw;
+  left: 20vw;
   top: 35vh;
   background: rgba(0, 0, 0, 0.3);
   z-index: 999999;

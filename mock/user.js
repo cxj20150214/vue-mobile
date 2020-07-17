@@ -104,7 +104,7 @@ export default [
       }
 
       return {
-        code: 20000,
+        code: 200,
         data: token
       }
     }
@@ -127,7 +127,7 @@ export default [
       }
 
       return {
-        code: 20000,
+        code: 200,
         data: info
       }
     }
@@ -139,7 +139,7 @@ export default [
     type: 'post',
     response: _ => {
       return {
-        code: 20000,
+        code: 200,
         data: 'success'
       }
     }
@@ -158,7 +158,7 @@ export default [
         }
       }
       return {
-        code: 20000,
+        code: 200,
         data: food
       }
     }

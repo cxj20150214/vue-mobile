@@ -1,10 +1,17 @@
 import request from '@/utils/request'
 
-export function login(data) {
+export function login(params) {
   return request({
-    url: '/vue-admin-template/user/login',
+    url: 'http://www.kuaiwan.club/index.php/index/index/login_check',
     method: 'post',
-    data
+    params
+  })
+}
+export function register(params) {
+  return request({
+    url: 'http://www.kuaiwan.club/index.php/index/index/signup_check',
+    method: 'post',
+    params
   })
 }
 
