@@ -6,7 +6,8 @@ const getDefaultState = () => {
   return {
     token: getToken(),
     name: '',
-    avatar: ''
+    avatar: '',
+    centername: ''
   }
 }
 
@@ -22,6 +23,9 @@ const mutations = {
   SET_NAME: (state, name) => {
     state.name = name
   },
+  SET_CENTERNAME: (state, centername) => {
+    state.centername = centername
+  },
   SET_AVATAR: (state, avatar) => {
     state.avatar = avatar
   }
@@ -36,8 +40,10 @@ const actions = {
         // const { data } = response
         console.log(response)
         if(response.code == 200){
-          console.log('200')
           commit('SET_TOKEN', "admin-token")
+          const centername = response.data.username
+          console.log(centername)
+          commit('SET_CENTERNAME', centername)
           setToken("admin-token")
           resolve(response)
         }

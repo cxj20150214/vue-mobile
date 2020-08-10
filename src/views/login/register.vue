@@ -18,82 +18,82 @@
               </el-form-item>
               <el-form-item prop="smsvcode">
                 <img class="bind_img1" src="../../assets/img/bind1 (2).png" alt />
-                <input class="myInput" type="password" v-model="ruleForm.password" placeholder="输入密码" />
+                <input class="myInput" v-model="ruleForm.password" placeholder="输入密码" />
                 <!-- <div class="button yz">获取验证码</div> -->
               </el-form-item>
-              <div v-loading="loading" class="button bd" @click="submitForm('ruleForm')">登录</div>
+              <el-form-item prop="smsvcode">
+                <img class="bind_img1" src="../../assets/img/bind1 (2).png" alt />
+                <input class="myInput" v-model="ruleForm.password1" placeholder="再次确认密码" />
+                <!-- <div class="button yz">获取验证码</div> -->
+              </el-form-item>
+              <div v-loading="loading" class="button bd" @click="submitForm('ruleForm')">注册</div>
             </el-form>
           </div>
         </div>
-        <p class="tis" @click="toReg">注册</p>
+        <!-- <p class="tis">(手机号:15605995727 验证码任意)</p> -->
       </div>
     </div>
-    <div class="success" v-show="loginSuccess">登录成功</div>
+    <div class="success" v-show="loginSuccess">注册成功</div>
     <div class="success" v-show="loginErr">{{loginErrmes}}</div>
   </div>
 </template>
 <script>
+import { register } from "@/api/user";
 export default {
-  name: "shopbind",
+  name: "register",
   data() {
     return {
       num: 0,
       // thisQuery: "",
       access_token: "",
-      loginErrmes: "",
       ruleForm: {
         username: "",
-        password: ""
+        password: "",
+        password1: ""
       },
       rules: {
         username: [
           { required: true, message: "请输入手机号", trigger: "blur" }
         ],
-        password: [{ required: true, message: "请输入密码", trigger: "blur" }]
+        password: [
+          { required: true, message: "请输入密码", trigger: "blur" }
+        ],
+        password1: [
+          { required: true, message: "请输入密码", trigger: "blur" }
+        ]
       },
       loading: false,
       loginSuccess: false,
-      loginErr: false
+      loginErr: false,
+      loginErrmes:''
     };
   },
   components: {},
   methods: {
-    // 跳转注册页
-    toReg() {
-      console.log("111");
-      this.$router.push("/register");
-    },
     submitForm(formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
           this.loading = true;
-          this.$store
-            .dispatch("user/login", this.ruleForm)
-            .then(response => {
-              console.log(response, "111");
-              if (response.code == 200) {
-                console.log("aaa");
-                this.loginSuccess = true;
-                setTimeout(() => {
-                  this.$router.push({ path: "/food" });
-                  this.loginSuccess = false;
-                  this.loading = false;
-                }, 500);
-              }
-              if (response.code == 400) {
-                console.log("bbb");
-                this.loginErr = true;
-                this.loginErrmes = response.msg;
-                setTimeout(() => {
-                  this.loginErr = false;
-                  this.loading = false;
-                }, 1500);
-              }
-            })
-            .catch(() => {
-              this.loading = false;
-              console.log("错误");
-            });
+          register(this.ruleForm).then(res => {
+            if (res.code == 200) {
+              console.log(res);
+              this.loginSuccess = true;
+              setTimeout(() => {
+                this.$router.push({ path: "/bind" });
+                this.loginSuccess = false;
+                this.loading = false;
+              }, 1500);
+            }
+            if (res.code == 400) {
+              console.log(res);
+              this.loginErr = true;
+              this.loginErrmes = res.msg;
+              setTimeout(() => {
+                this.loginErr = false;
+                this.loading = false;
+              }, 1500);
+            }
+          });
         } else {
           console.log("验证失败!!");
           return false;
