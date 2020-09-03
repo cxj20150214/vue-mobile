@@ -1,13 +1,21 @@
 import Cookies from 'js-cookie'
 
 const TokenKey = 'vue_admin_template_token'
-
+const Centername ='vue_Centername'
 export function getToken() {
   return Cookies.get(TokenKey)
 }
 
 export function setToken(token) {
   return Cookies.set(TokenKey, token)
+}
+
+export function getCentername() {
+  return Cookies.get(Centername)
+}
+
+export function setCentername(centername) {
+  return Cookies.set(Centername, centername)
 }
 
 export function removeToken() {

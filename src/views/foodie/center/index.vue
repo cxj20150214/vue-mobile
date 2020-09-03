@@ -1,17 +1,5 @@
 <template>
   <div>
-    <!-- <form
-      action="http://cxj123/index.php/index/index/upload"
-      enctype="multipart/form-data"
-      method="post"
-    >
-      姓名：
-      <input type="text" name="name" />
-      <br />头像：
-      <input type="file" name="image" />
-      <br />
-      <input type="submit" value="上传" />
-    </form>-->
     <div class="box1">
       <div class="tx">
         <img src="../../../assets/img/tx.jpg" alt />
@@ -23,6 +11,10 @@
     </div>
     <div class="box2">
       <ul>
+         <li @click="upload">
+          <img src="../../../assets/img/sccp.png" alt />
+          <p>上传食谱</p>
+        </li>
         <li @click="open">
           <img src="../../../assets/img/tc.png" alt />
           <p>退出登录</p>
@@ -56,6 +48,9 @@ export default {
       this.$store.dispatch("user/logout").then(() => {
         this.$router.push(`/login?redirect=${this.$route.fullPath}`);
       });
+    },
+    upload(){
+      this.$router.push('/upload')
     }
   }
 };

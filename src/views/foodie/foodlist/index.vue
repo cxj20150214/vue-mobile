@@ -9,15 +9,15 @@
         <el-tabs v-model="activeName" @tab-click="handleClick">
           <el-tab-pane label="精选" name="tab1" v-loading="loading">
             <ul class="Flist">
-              <li v-for="item in Flist">
+              <li v-for="item in Flist" @click="toDetail(item)">
                 <div class="img_box">
                   <img :src="item.url" alt />
                 </div>
                 <div class="title_box">
-                  <p class="title">{{item.title}}</p>
+                  <p class="title">{{item.name}}</p>
                   <p class="dz">
                     <img src="../../../assets/img/sc.png" alt />
-                    <span>{{item.dianz}}</span>
+                    <span>500</span>
                   </p>
                 </div>
               </li>
@@ -45,6 +45,11 @@ export default {
     };
   },
   methods: {
+    // 跳转至详情页
+    toDetail(item) {
+      let thiId = item.id;
+      this.$router.push({ path: "/detail", query: { id: thiId } });
+    },
     handleClick(tab) {
       if (tab.name == "tab1") {
         this.foodtype = "type_jx";
@@ -56,8 +61,8 @@ export default {
         foodtype: this.foodtype
       }).then(res => {
         this.loading = true;
-        if ((res.code = 20000)) {
-          this.Flist = res.data.list;
+        if ((res.code = 200)) {
+          this.Flist = res.data;
           this.loading = false;
         }
       });
@@ -68,8 +73,8 @@ export default {
       foodtype: this.foodtype
     }).then(res => {
       this.loading = true;
-      if ((res.code = 20000)) {
-        this.Flist = res.data.list;
+      if ((res.code = 200)) {
+        this.Flist = res.data;
         this.loading = false;
       }
     });
@@ -168,6 +173,7 @@ export default {
       img {
         position: absolute;
         width: 100%;
+        height: 100%;
       }
     }
     .title_box {
@@ -179,6 +185,9 @@ export default {
         font-size: 28px;
         color: #333;
         font-weight: 700;
+        height: 35px;
+        width: 220px;
+        overflow: hidden;
       }
       .dz {
         font-size: 28px;

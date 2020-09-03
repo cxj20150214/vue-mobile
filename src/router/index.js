@@ -85,9 +85,31 @@ export const constantRoutes = [{
           title: '我的',
           icon: 'dashboard',
           index: 1
-        }
+        },
       }
     ]
+  },
+  {
+    path: '/upload',
+    name: 'upload',
+    component: () => import('@/views/foodie/center/upload'),
+    meta: {
+      title: '上传菜谱',
+      icon: 'dashboard',
+      index: 2
+    },
+    hidden: true
+  },
+  {
+    path: '/detail',
+    name: 'detail',
+    component: () => import('@/views/foodie/foodlist/detail'),
+    meta: {
+      title: '食谱详情',
+      icon: 'dashboard',
+      index: 2
+    },
+    hidden: true
   },
   {
     path: '/404',

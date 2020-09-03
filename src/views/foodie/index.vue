@@ -38,6 +38,20 @@ export default {
       this.Eat = true;
       this.show = 2;
     }
+  },
+  created() {
+    const thisRoute = this.$route.name;
+    console.log(this.$route);
+    if (thisRoute === "foodlist") {
+      this.activeEat = true;
+      this.Eat = false;
+      this.show = 1;
+    }
+    if (thisRoute === "center") {
+      this.activeEat = false;
+      this.Eat = true;
+      this.show = 2;
+    }
   }
 };
 </script>
@@ -45,7 +59,7 @@ export default {
 .content {
   width: 100vw;
   min-height: 100vh;
-  padding-bottom:80px;
+  padding-bottom: 80px;
   background-color: #f3f3f3;
 }
 .foot {

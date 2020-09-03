@@ -1,5 +1,5 @@
 import { login, logout, getInfo } from '@/api/user'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, setCentername, getCentername, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
 
 const getDefaultState = () => {
@@ -7,7 +7,7 @@ const getDefaultState = () => {
     token: getToken(),
     name: '',
     avatar: '',
-    centername: ''
+    centername: getCentername()
   }
 }
 
@@ -45,6 +45,7 @@ const actions = {
           console.log(centername)
           commit('SET_CENTERNAME', centername)
           setToken("admin-token")
+          setCentername(centername)
           resolve(response)
         }
         if(response.code == 400){
